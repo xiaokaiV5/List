@@ -8,7 +8,7 @@ public:
 	//~Node();
 	Node<T>* prev;
 	Node<T>* next;
-	T Data;
+	T data;
 };
 
 

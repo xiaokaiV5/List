@@ -1,20 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include "List.h"
 using namespace std;
 
-class ListNode
-{
-public:
-	ListNode();
-	~ListNode();
-	bool hasCycle();
-public:
-	ListNode* next;
-	ListNode* prev;
-protected:
-	
-private:
-};
 
 
