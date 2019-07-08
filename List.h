@@ -26,8 +26,8 @@ public:
 		RmAll				//删除所有相等的数据
 	};
 private:
-	Node<T> *head;	//头结点
-	Node<T> *tail;	//尾结点
+	Node<T>* head;	//头结点
+	Node<T>* tail;	//尾结点
 	int length;
 
 };
@@ -55,7 +55,7 @@ List<T>::List(const List& ln)
 	tail->prev = head;
 	length = 0;
 
-	Node<T> *temp = ln.head;
+	Node<T>* temp = ln.head;
 	while (temp->next != ln.tail)
 	{
 		temp = temp->next;
@@ -77,11 +77,11 @@ List<T>::~List()
 		delete tail;
 		head = nullptr;
 		tail = nullptr;
-		return ;
+		return;
 	}
 
 	Node<T>* p = nullptr;
-	while (head->next !=tail)
+	while (head->next != tail)
 	{
 		p = head;
 		head = head->next;
@@ -93,7 +93,7 @@ List<T>::~List()
 template<typename T>
 inline void List<T>::add(T e)
 {
-	
+
 	Node<T>* p = new Node<T>;
 	p->data = e;
 	//尾插法
@@ -102,7 +102,7 @@ inline void List<T>::add(T e)
 	tail->prev->next = p;
 	tail->prev = p;
 	length++;
-	std::cout << "add:" << e << " len:" << length << std::endl;
+	//std::cout << "add:" << e << " len:" << length << std::endl;
 }
 
 template<typename T>
@@ -121,7 +121,7 @@ inline void List<T>::remove(T e, int flag) //C++的默认参数只能在声明时声明。
 
 	Node<T>* p = head->next;
 	Node<T>* n = nullptr;
-	while (p->next!=tail)
+	while (p->next != tail)
 	{
 		if (p->data == e)
 		{
@@ -137,22 +137,58 @@ inline void List<T>::remove(T e, int flag) //C++的默认参数只能在声明时声明。
 			else
 				p = n;
 		}
+		else
+		{
+			p = p->next;
+		}
 	}
 }
 
 template<typename T>
 inline T List<T>::find(int index)
 {
-	return T();
+	if (length == 0)
+	{
+		std::cout << "List is empty" << std::endl;
+		return nullptr;
+	}
+	else if (index >= length)
+	{
+		std::cout << "Out of bounds" << std::endl;
+		return nullptr;
+	}
+
+	Node<T>* p;
+	int x = 0;
+	if (index > length / 2)
+	{
+		x = length - 1;
+		p = tail->prev;
+		while (x-- != index)
+		{
+			p = p->prev;
+			x--;
+		}
+	}
+	else
+	{
+		p = head->next;
+		while (x++ != index)
+		{
+			p = p->next;
+			x++;
+		}
+	}
+	return p->data;
 }
 
 template<typename T>
 inline bool List<T>::isEmpty()
 {
-	if (length==0)
+	if (length == 0)
 	{
 		return true;
-	} 
+	}
 	else
 	{
 		return false;
@@ -168,16 +204,37 @@ inline int List<T>::size()
 template<typename T>
 inline void List<T>::show()
 {
+	Node<T>* p = head->next;
+	while (p != tail)
+	{
+		std::cout << p->data << std::endl;
+		p = p->next;
+	}
 }
 
 template<typename T>
 inline void List<T>::resShow()
 {
+	Node<T>* p = tail->prev;
+	while (p->prev != nullptr)
+	{
+		std::cout << p.data << std::endl;
+		p = p->prev;
+	}
 }
 
 template<typename T>
 inline void List<T>::removeAll()
 {
+	Node<T>* p = head->next;
+	while (head->next != tail)
+	{
+		p->next->prev = p->prev;
+		p->prev->next = p->next;
+		delete p;
+		p = head->next;
+		length--;
+	}
 }
 
 
